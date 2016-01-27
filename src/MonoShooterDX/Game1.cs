@@ -31,8 +31,12 @@ namespace MonoShooterDX
 
         Texture2D _hitboxTexture;
 
+        Texture2D _pauseBackground;
+
         int _screenWidth;
         int _screenHeight;
+
+        bool _isPaused;
 
         public Game1()
         {
@@ -49,6 +53,8 @@ namespace MonoShooterDX
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+
+            _isPaused = false;
 
             _screenHeight = GraphicsDevice.Viewport.Height;
             _screenWidth = GraphicsDevice.Viewport.Width;
@@ -131,6 +137,8 @@ namespace MonoShooterDX
 
             gameMusic = Content.Load<Song>("Music/gameMusic");
 
+            _pauseBackground = Content.Load<Texture2D>("Graphics/Pause");
+
             MediaPlayer.Volume = .75f;
             MediaPlayer.Play(gameMusic);
         }
@@ -158,16 +166,26 @@ namespace MonoShooterDX
 
             input.Update(gameTime);
 
-            _projectileManager.Update(gameTime);
+            //Toogle Pause
+            //Can't Pause if Dying
+            if (input.Pause && !player.Dying)
+            {
+                _isPaused = !_isPaused;
+            }
 
-            player.Update(gameTime);
+            if (!_isPaused)
+            {
+                _projectileManager.Update(gameTime);
 
-            enemyManager.Update(gameTime);
-            
-            UpdateCollision();
+                player.Update(gameTime);
 
-            gameBackground.Update(gameTime);
-            fogForeground.Update(gameTime);
+                enemyManager.Update(gameTime);
+
+                UpdateCollision();
+
+                gameBackground.Update(gameTime);
+                fogForeground.Update(gameTime);
+            }
 
             base.Update(gameTime);
         }
@@ -193,8 +211,13 @@ namespace MonoShooterDX
 
             fogForeground.Draw(spriteBatch);
 
-            spriteBatch.End();
+            if (_isPaused)
+            {
+                spriteBatch.Draw(_pauseBackground, new Rectangle(0, 0, _screenWidth, _screenHeight), Color.White);
+            }
 
+            spriteBatch.End();
+            
             base.Draw(gameTime);
         }
 

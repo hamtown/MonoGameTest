@@ -15,7 +15,10 @@ namespace MonoShooterDX
 
             Fire = (currentGamePadState.Buttons.X == ButtonState.Pressed);
             Exit = currentGamePadState.Buttons.Back == ButtonState.Pressed;
-             
+
+            //Pause is when Start Button is Pressed currently, and was not pressed before
+            Pause = currentGamePadState.Buttons.Start == ButtonState.Pressed 
+                && currentGamePadState.Buttons.Start == ButtonState.Released;
         }
     }
 }

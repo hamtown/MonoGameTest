@@ -41,6 +41,10 @@ namespace MonoShooterDX
 
             Fire = currentKeyboardState.IsKeyDown(Keys.Space);
             Exit = currentKeyboardState.IsKeyDown(Keys.Escape);
+
+            //Pause is when Left Control is Pressed currently, and was not pressed before
+            Pause = currentKeyboardState.IsKeyDown(Keys.LeftControl) 
+                && previousKeyboardState.IsKeyUp(Keys.LeftControl);
         }
     }
 }

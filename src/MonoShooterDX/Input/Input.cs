@@ -21,6 +21,9 @@ namespace MonoShooterDX
         //Exit Game
         public bool Exit { get; set; }
 
+        //Pause 
+        public bool Pause { get; set; }
+
         public abstract void Update(GameTime gametime); 
     }
 }
