@@ -166,6 +166,8 @@ namespace MonoShooterDX
 
             input.Update(gameTime);
 
+            //Implement Pause Token Source, and pass tokens to each component to control how it pauses.
+
             //Toogle Pause
             //Can't Pause if Dying
             if (input.Pause && !player.Dying)
